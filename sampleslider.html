@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        .container {
+            width: 70%;
+            height: 500px;
+            border: 1px solid black;
+            margin: 50px auto;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f6f8f9, #e9ecef);
+            overflow: hidden; /* Ensures images don't overflow */
+        }
+        
+        .container img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out; /* Transition for opacity */
+            opacity: 0; /* Initially hide all images */
+        }
+
+        .container img.active {
+            opacity: 1; /* Show active image */
+        }
+
+        .b1, .b2 {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+            top: 50%;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            font-size: 20px;
+            transform: translateY(-50%);
+        }
+
+        .b1 {
+            left: 10px;
+        }
+
+        .b2 {
+            right: 10px;
+        }
+
+        .b1:hover, .b2:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .thumbnails {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+            top:-60px;
+        }
+
+        .thumbnails img:hover, .thumbnails img.active {
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="slides active" src="imgslide1.jpg" alt="Slide 1">
+        <img class="slides" src="imgslide2.jpg" alt="Slide 2">
+        <img class="slides" src="imgslide3.jpg" alt="Slide 3">
+        <img class="slides" src="imgslide4.jpg" alt="Slide 4">
+        <img class="slides" src="imgslide5.jpg" alt="Slide 5">
+        <img class="slides" src="imgslide6.jpg" alt="Slide 6">
+        <img class="slides" src="imgslide7.jpg" alt="Slide 7">
+
+        
+        <button class="b1" onclick="plusIndex(-1)" id="btn1">&#10094;</button>
+        <button class="b2" onclick="plusIndex(1)" id="btn2">&#10095;</button>
+    
+        <div class="thumbnails">
+            <img src="imgslide1.jpg"  onclick="jumpToSlide(0)" class="active">
+            <img src="imgslide2.jpg"  onclick="jumpToSlide(1)">
+            <img src="imgslide3.jpg"  onclick="jumpToSlide(2)">
+            <img src="imgslide4.jpg"  onclick="jumpToSlide(3)">
+            <img src="imgslide5.jpg"  onclick="jumpToSlide(4)">
+            <img src="imgslide6.jpg"  onclick="jumpToSlide(5)">
+            <img src="imgslide7.jpg"  onclick="jumpToSlide(6)">
+
+        </div>
+    </div>
+    
+    <script>
+        var index = 0
+
+        function plusIndex(n) {
+            showimg(index += n)
+        }
+
+        function jumpToSlide(n) {
+            showimg(index = n)
+        }
+
+        function showimg(n) {
+            var i
+            var slides = document.getElementsByClassName("slides")
+            var thumbnails = document.getElementsByClassName("thumbnails")[0].getElementsByTagName('img')
+
+            if (n >= slides.length) { index = 0 }
+            if (n < 0) { index = slides.length - 1 }
+
+           
+            for (i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active')
+                thumbnails[i].classList.remove('active')
+            }
+
+            slides[index].classList.add('active')
+            thumbnails[index].classList.add('active')
+            resetProgress()
+        }
+
+        function resetProgress() {
+            var progress = document.getElementById("progress")
+            progress.style.animation = 'none'
+            progress.offsetHeight
+            progress.style.animation = null
+        }
+
+       
+        setInterval(function() {
+            plusIndex(1)
+        }, 3000)
+    </script>
+</body>
+</html>
